@@ -1,0 +1,306 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E - PARCIAL || GRUPO 6</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-body: #0f172a;
+            --bg-card: #1e293b;
+            --accent: #38bdf8;
+            --text-main: #f1f5f9;
+            --text-dim: #94a3b8;
+            --sidebar-w: 260px;
+            --success: #22c55e;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        aside {
+            width: var(--sidebar-w);
+            background-color: #020617;
+            border-right: 1px solid #334155;
+            padding: 2rem 1.5rem;
+            position: fixed;
+            height: 100vh;
+        }
+
+        .logo-box {
+            color: var(--accent);
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .menu-item {
+            padding: 0.8rem 1rem;
+            color: var(--text-dim);
+            text-decoration: none;
+            display: block;
+            border-radius: 8px;
+            transition: all 0.3s;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .menu-item:hover {
+            background: #1e293b;
+            color: var(--accent);
+        }
+
+        main {
+            margin-left: var(--sidebar-w);
+            flex: 1;
+            padding: 2rem 3rem;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .user-info { display: flex; align-items: center; gap: 1rem; }
+        .avatar { width: 40px; height: 40px; background: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #000; }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            padding: 1.5rem;
+            border-radius: 16px;
+            border: 1px solid #334155;
+        }
+
+        .stat-card h4 { color: var(--text-dim); font-size: 0.8rem; text-transform: uppercase; margin-bottom: 0.5rem; }
+        .stat-card .val { font-size: 1.8rem; font-weight: 700; color: var(--accent); }
+
+        section {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid #334155;
+            scroll-margin-top: 20px;
+        }
+
+        h2 { font-size: 1.5rem; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 10px; }
+        h2::before { content: ''; width: 4px; height: 24px; background: var(--accent); border-radius: 2px; }
+
+        p { color: var(--text-dim); line-height: 1.7; margin-bottom: 1rem; }
+
+        .table-container { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; margin-top: 1rem; font-size: 0.8rem; }
+        th { text-align: left; padding: 1rem; border-bottom: 2px solid #334155; color: var(--accent); }
+        td { padding: 1rem; border-bottom: 1px solid #334155; vertical-align: top; }
+        tr:hover { background: #33415544; }
+
+        .btn-pdf { background: #38bdf822; color: var(--accent); padding: 4px 10px; border-radius: 6px; text-decoration: none; border: 1px solid var(--accent); display: inline-block; font-size: 0.75rem; }
+
+        .code-box {
+            background: #020617;
+            padding: 1.5rem;
+            border-radius: 12px;
+            font-family: 'JetBrains Mono', monospace;
+            border-left: 4px solid var(--accent);
+            margin: 1rem 0;
+            color: #7dd3fc;
+        }
+
+        .tag { background: #0ea5e9; color: white; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; margin-right: 5px; }
+
+        .ref-item { margin-bottom: 1.5rem; border-left: 2px solid #334155; padding-left: 1rem; }
+        
+        html { scroll-behavior: smooth; }
+    </style>
+</head>
+<body>
+
+    <aside>
+        <div class="logo-box">
+            <span>⚡</span> U CONTINENTAL
+        </div>
+        <nav>
+            <a href="#inicio" class="menu-item">Resumen</a>
+            <a href="#busqueda" class="menu-item">Búsqueda</a>
+            <a href="#fuentes" class="menu-item">Matriz de Fuentes</a>
+            <a href="#analisis" class="menu-item">Análisis IA</a>
+            <a href="#bibliografia" class="menu-item">Referencias APA</a>
+        </nav>
+    </aside>
+
+    <main id="inicio">
+        <div class="top-bar">
+            <h1>Evaluación Parcial: IA para aprender idiomas: Cómo aplicaciones como Duolingo y Gemini ayudan a practicar inglés de forma personalizada</h1>
+            <div class="user-info">
+                <div style="text-align: right;">
+                    <div style="font-weight: 600;">GRUPO 6</div>
+                    <div style="font-size: 0.8rem; color: var(--text-dim);">Universidad Continental</div>
+                </div>
+                <div class="avatar">G6</div>
+            </div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h4>Fuentes Validadas</h4>
+                <div class="val">05</div>
+            </div>
+            <div class="stat-card">
+                <h4>Ecuaciones Nivel</h4>
+                <div class="val">I -II</div>
+            </div>
+            <div class="stat-card">
+                <h4>Actualidad</h4>
+                <div class="val">2022-26</div>
+            </div>
+            <div class="stat-card">
+                <h4>Cumplimiento</h4>
+                <div class="val" style="color: var(--success);">100%</div>
+            </div>
+        </div>
+
+        <section id="busqueda">
+            <h2>Estrategia de Búsqueda Avanzada</h2>
+            <p>Implementación de protocolos técnicos para la recuperación de literatura científica de alta autoridad.</p>
+            <div class="code-box">
+                <span class="tag">QUERY_LVL_2</span> ("Inteligencia Artificial" OR "IA generativa" OR chatbot*) AND ("enseñanza del inglés" OR "aprender inglés") AND (personaliza* OR gamifica*)
+            </div>
+            <div class="code-box" style="border-color: #f59e0b;">
+                <span class="tag">GOOGLE_DORK</span> filetype:pdf site:.edu OR site:.org "Inteligencia Artificial" AND "idiomas"
+            </div>
+        </section>
+
+        <section id="fuentes">
+            <h2>Matriz de Evaluación de Fuentes</h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Fuente (Autor, Año y Título)</th>
+                            <th>Relevancia</th>
+                            <th>Autoridad</th>
+                            <th>Fecha</th>
+                            <th>Propósito</th>
+                            <th>Audiencia</th>
+                            <th>Acceso</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Chicaiza et al. (2023):</strong> Aplicaciones de Chat GPT como IA para el aprendizaje del inglés</td>
+                            <td>Muy Alta: Retroalimentación inmediata.</td>
+                            <td>Investigadores Univ. Técnica de Ambato.</td>
+                            <td>2023</td>
+                            <td>Evaluar ChatGPT en lenguas.</td>
+                            <td>Docentes y alumnos.</td>
+                            <td><a href="https://latam.redilat.org/index.php/lt/article/view/781" class="btn-pdf">DIALNET</a></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Díaz et al. (2022):</strong> Recursos didácticos digitales en la enseñanza del inglés</td>
+                            <td>Alta: Integración TIC/Bilingüismo.</td>
+                            <td>Académicos expertos en lingüística.</td>
+                            <td>2022</td>
+                            <td>Describir impacto de TIC.</td>
+                            <td>Profesores de inglés.</td>
+                            <td><a href="https://ve.scielo.org/pdf/uct/v26n116/2542-3401-uct-26-116-84.pdf" class="btn-pdf">SCIELO</a></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Ferreyra et al. (2024):</strong> Avances y discusiones sobre el uso de la IA en educación</td>
+                            <td>Media: Marco ético y pedagógico.</td>
+                            <td>Expertos en pedagogía y tecnología.</td>
+                            <td>2024</td>
+                            <td>Sintetizar retos éticos.</td>
+                            <td>Comunidad académica.</td>
+                            <td><a href="https://www.redalyc.org/journal/7178/717877776003/html/" class="btn-pdf">REDALYC</a></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Holguín-Almache et al. (2024):</strong> IA generativa como apoyo en el aprendizaje del inglés</td>
+                            <td>Muy Alta: Personalización profunda.</td>
+                            <td>Especialistas en entornos digitales.</td>
+                            <td>2024</td>
+                            <td>Evaluar eficacia de IA generativa.</td>
+                            <td>Universitarios.</td>
+                            <td><a href="https://dialnet.unirioja.es/servlet/articulo?codigo=10666745" class="btn-pdf">DIALNET</a></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Peñaloza Ralliman et al. (2024):</strong> Estrategias didácticas basadas en IA...</td>
+                            <td>Alta: Revisión sistemática de producción.</td>
+                            <td>Investigadores Univ. Distrital.</td>
+                            <td>2024</td>
+                            <td>Examinar producción científica.</td>
+                            <td>Investigadores.</td>
+                            <td><a href="https://dialnet.unirioja.es/servlet/articulo?codigo=10077073" class="btn-pdf">DIALNET</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="analisis">
+            <h2>Análisis de Soluciones Implementadas</h2>
+            <div class="ai-grid">
+                <div class="ai-tool">
+                    <h3 style="color: var(--accent);">Gemini / ChatGPT</h3>
+                    <p style="font-size: 0.9rem;">Modelos de Lenguaje Extensos (LLM) que permiten la práctica conversacional mediante <i>Roleplay</i> y corrección sintáctica en tiempo real.</p>
+                    <div class="progress-bar"><div class="progress-fill" style="width: 95%;"></div></div>
+                    <span style="font-size: 0.7rem;">Capacidad de Personalización: 95%</span>
+                </div>
+                <div class="ai-tool">
+                    <h3 style="color: #a78bfa;">Duolingo</h3>
+                    <p style="font-size: 0.9rem;">Sistema gamificado que utiliza algoritmos de repetición espaciada para la retención de vocabulario y gramática básica.</p>
+                    <div class="progress-bar"><div class="progress-fill" style="width: 80%; background: #a78bfa;"></div></div>
+                    <span style="font-size: 0.7rem;">Capacidad de Gamificación: 80%</span>
+                </div>
+            </div>
+            <div class="code-box" style="margin-top: 1.5rem; background: #1e293b;">
+                <strong>Prompt de Ingeniería para Gemini:</strong><br>
+                "Generate a B2-level conversation about cloud computing. Act as a senior developer and point out my grammatical mistakes in every turn."
+            </div>
+        </section>
+
+        <section id="bibliografia">
+            <h2>Referencias Bibliográficas (APA 7)</h2>
+            <div class="ref-item">
+                Chicaiza Redrovan, S. E., & Farias Lema, J. M. (2023). Aplicaciones de Chat GPT como inteligencia artificial para el aprendizaje de idioma inglés. <i>LATAM Revista Latinoamericana de Ciencias Sociales y Humanidades</i>, 4(2), 2689–2703.
+            </div>
+            <div class="ref-item">
+                Díaz, E. D. C., Quintero Montilla, A. K., & Rangel, E. D. C. (2022). Recursos didácticos digitales en la enseñanza del idioma inglés. <i>Universidad, Ciencia y Tecnología</i>, 26(116), 84-93.
+            </div>
+            <div class="ref-item">
+                Ferreyra, M., Morán, L., & Daura, I. (2024). Avances y discusiones sobre el uso de la Inteligencia Artificial (IA) en educación. <i>Paradigma</i>, 45, 48-69.
+            </div>
+            <div class="ref-item">
+                Holguín-Almache, J. A., Santillán-Brito, L. L., & Pardo-Cevallos, A. G. (2024). Inteligencia artificial generativa como apoyo en el aprendizaje del idioma inglés. <i>Revista Científica Arbitrada Multidisciplinaria PENTACIENCIAS</i>, 6(5).
+            </div>
+            <div class="ref-item">
+                Peñaloza Ralliman, L. P., et al. (2024). Estrategias didácticas basadas en inteligencia artificial para el aprendizaje del inglés: una revisión sistemática de la producción bibliográfica 2019-2023. <i>Boletín de Innovación, Logística y Operaciones</i>.
+            </div>
+            <div class="ref-item">
+                Universidad Finis Terrae. (2021). <i>Guía para realizar búsquedas efectivas</i>. Sistema de Bibliotecas.
+            </div>
+        </section>
+    </main>
+
+</body>
+</html>
