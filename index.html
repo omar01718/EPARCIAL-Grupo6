@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>E - PARCIAL || GRUPO 6</title>
+    <title>Dashboard IA Educativa | Grupo 6</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -15,6 +14,8 @@
             --text-dim: #94a3b8;
             --sidebar-w: 260px;
             --success: #22c55e;
+            --warning: #f59e0b;
+            --purple: #a855f7;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -27,6 +28,7 @@
             min-height: 100vh;
         }
 
+        /* Sidebar Navegación */
         aside {
             width: var(--sidebar-w);
             background-color: #020617;
@@ -34,16 +36,18 @@
             padding: 2rem 1.5rem;
             position: fixed;
             height: 100vh;
+            overflow-y: auto;
         }
 
         .logo-box {
             color: var(--accent);
             font-weight: 700;
-            font-size: 1.2rem;
-            margin-bottom: 3rem;
+            font-size: 1.1rem;
+            margin-bottom: 2.5rem;
             display: flex;
             align-items: center;
             gap: 10px;
+            line-height: 1.2;
         }
 
         .menu-item {
@@ -57,15 +61,14 @@
             font-size: 0.95rem;
         }
 
-        .menu-item:hover {
-            background: #1e293b;
-            color: var(--accent);
-        }
+        .menu-item:hover { background: #1e293b; color: var(--accent); }
 
+        /* Contenido Principal */
         main {
             margin-left: var(--sidebar-w);
             flex: 1;
-            padding: 2rem 3rem;
+            padding: 2.5rem 3.5rem;
+            max-width: 1400px;
         }
 
         .top-bar {
@@ -73,11 +76,14 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #334155;
         }
 
-        .user-info { display: flex; align-items: center; gap: 1rem; }
-        .avatar { width: 40px; height: 40px; background: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #000; }
+        .top-bar h1 { font-size: 1.8rem; font-weight: 700; color: #fff; }
+        .subtitle { color: var(--text-dim); font-size: 0.9rem; margin-top: 5px; }
 
+        /* Tarjetas de Estadísticas */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -88,49 +94,65 @@
         .stat-card {
             background: var(--bg-card);
             padding: 1.5rem;
-            border-radius: 16px;
+            border-radius: 12px;
             border: 1px solid #334155;
         }
-
         .stat-card h4 { color: var(--text-dim); font-size: 0.8rem; text-transform: uppercase; margin-bottom: 0.5rem; }
         .stat-card .val { font-size: 1.8rem; font-weight: 700; color: var(--accent); }
 
+        /* Secciones */
         section {
             background: var(--bg-card);
-            border-radius: 16px;
-            padding: 2rem;
+            border-radius: 12px;
+            padding: 2.5rem;
             margin-bottom: 2rem;
             border: 1px solid #334155;
             scroll-margin-top: 20px;
         }
 
-        h2 { font-size: 1.5rem; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 10px; }
+        h2 { font-size: 1.5rem; margin-bottom: 1.5rem; color: #fff; display: flex; align-items: center; gap: 10px; }
         h2::before { content: ''; width: 4px; height: 24px; background: var(--accent); border-radius: 2px; }
+        h3 { font-size: 1.2rem; margin: 1.5rem 0 1rem 0; color: var(--accent); }
 
-        p { color: var(--text-dim); line-height: 1.7; margin-bottom: 1rem; }
+        p { color: var(--text-dim); line-height: 1.7; margin-bottom: 1rem; text-align: justify; }
+        ul { margin-left: 1.5rem; margin-bottom: 1rem; color: var(--text-dim); line-height: 1.7; }
 
-        .table-container { overflow-x: auto; }
-        table { width: 100%; border-collapse: collapse; margin-top: 1rem; font-size: 0.8rem; }
-        th { text-align: left; padding: 1rem; border-bottom: 2px solid #334155; color: var(--accent); }
-        td { padding: 1rem; border-bottom: 1px solid #334155; vertical-align: top; }
+        /* Tablas */
+        .table-container { overflow-x: auto; margin-top: 1rem; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+        th { text-align: left; padding: 1rem; border-bottom: 2px solid #334155; color: var(--accent); background: #0f172a; }
+        td { padding: 1rem; border-bottom: 1px solid #334155; vertical-align: top; color: var(--text-main); }
         tr:hover { background: #33415544; }
 
-        .btn-pdf { background: #38bdf822; color: var(--accent); padding: 4px 10px; border-radius: 6px; text-decoration: none; border: 1px solid var(--accent); display: inline-block; font-size: 0.75rem; }
-
+        /* Bloques de Código (Prompts y Ecuaciones) */
         .code-box {
             background: #020617;
             padding: 1.5rem;
-            border-radius: 12px;
+            border-radius: 8px;
             font-family: 'JetBrains Mono', monospace;
             border-left: 4px solid var(--accent);
             margin: 1rem 0;
             color: #7dd3fc;
+            font-size: 0.9rem;
+            white-space: pre-wrap;
         }
-
         .tag { background: #0ea5e9; color: white; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; margin-right: 5px; }
 
-        .ref-item { margin-bottom: 1.5rem; border-left: 2px solid #334155; padding-left: 1rem; }
-        
+        /* Enlaces y Botones */
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .btn-link { display: inline-block; padding: 8px 16px; background: #38bdf822; color: var(--accent); border: 1px solid var(--accent); border-radius: 6px; font-weight: 600; margin-top: 10px; margin-right: 10px;}
+        .btn-link:hover { background: var(--accent); color: #000; text-decoration: none; }
+
+        /* Grid de Reflexiones */
+        .reflection-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+        .reflection-card { background: #0f172a; padding: 1.5rem; border-radius: 8px; border: 1px solid #334155; }
+        .reflection-card h4 { color: #fff; margin-bottom: 1rem; font-size: 1.1rem; }
+        .reflection-card strong { color: var(--accent); }
+
+        /* Bibliografía */
+        .ref-item { margin-bottom: 1.2rem; padding-left: 2rem; text-indent: -2rem; font-size: 0.9rem; color: var(--text-dim); }
+
         html { scroll-behavior: smooth; }
     </style>
 </head>
@@ -138,119 +160,148 @@
 
     <aside>
         <div class="logo-box">
-            <span>⚡</span> U CONTINENTAL
+            <span style="font-size: 1.5rem;">⚡</span>
+            <div>
+                UNIVERSIDAD CONTINENTAL<br>
+                <span style="font-size: 0.8rem; font-weight: 400; color: var(--text-dim);">Grupo 6 - Sistemas e Info.</span>
+            </div>
         </div>
         <nav>
-            <a href="#inicio" class="menu-item">Resumen</a>
-            <a href="#busqueda" class="menu-item">Búsqueda</a>
-            <a href="#fuentes" class="menu-item">Matriz de Fuentes</a>
-            <a href="#analisis" class="menu-item">Análisis IA</a>
-            <a href="#bibliografia" class="menu-item">Referencias APA</a>
+            <a href="#intro" class="menu-item">1. Introducción</a>
+            <a href="#justificacion" class="menu-item">2. Selección del Tema</a>
+            <a href="#busqueda" class="menu-item">3. Búsqueda Avanzada</a>
+            <a href="#fuentes" class="menu-item">4. Matriz de Fuentes</a>
+            <a href="#analisis" class="menu-item">5. Análisis de IA</a>
+            <a href="#multimedia" class="menu-item">6. Recurso Multimedia</a>
+            <a href="#bibliografia" class="menu-item">7. Bibliografía (APA)</a>
+            <a href="#reflexion" class="menu-item">8. Reflexión Grupal</a>
         </nav>
     </aside>
 
-    <main id="inicio">
+    <main>
         <div class="top-bar">
-            <h1>Evaluación Parcial: IA para aprender idiomas: Cómo aplicaciones como Duolingo y Gemini ayudan a practicar inglés de forma personalizada</h1>
-            <div class="user-info">
-                <div style="text-align: right;">
-                    <div style="font-weight: 600;">GRUPO 6</div>
-                    <div style="font-size: 0.8rem; color: var(--text-dim);">Universidad Continental</div>
-                </div>
-                <div class="avatar">G6</div>
+            <div>
+                <h1>IA para aprender idiomas: Duolingo y Gemini</h1>
+                <div class="subtitle">Asignatura: Gestión del Aprendizaje y Cultura Digital | NRC: 31288</div>
             </div>
         </div>
 
         <div class="stats-grid">
             <div class="stat-card">
-                <h4>Fuentes Validadas</h4>
+                <h4>Integrantes</h4>
                 <div class="val">05</div>
             </div>
             <div class="stat-card">
-                <h4>Ecuaciones Nivel</h4>
-                <div class="val">I -II</div>
-            </div>
-            <div class="stat-card">
-                <h4>Actualidad</h4>
-                <div class="val">2022-26</div>
-            </div>
-            <div class="stat-card">
-                <h4>Cumplimiento</h4>
+                <h4>Participación</h4>
                 <div class="val" style="color: var(--success);">100%</div>
+            </div>
+            <div class="stat-card">
+                <h4>Fuentes Académicas</h4>
+                <div class="val">16</div>
+            </div>
+            <div class="stat-card">
+                <h4>Fecha de Entrega</h4>
+                <div class="val" style="color: var(--purple);">08/05/2026</div>
             </div>
         </div>
 
+        <section id="intro">
+            <h2>1. Introducción</h2>
+            <p>En los últimos años, la inteligencia artificial (IA) ha generado una transformación significativa en el ámbito educativo, especialmente en el aprendizaje de idiomas. Herramientas digitales como Duolingo y Gemini han permitido el desarrollo de nuevas metodologías basadas en la personalización, la interacción y el aprendizaje autónomo.</p>
+            <p>Diversos estudios recientes destacan que la IA se ha integrado progresivamente en la enseñanza de lenguas debido a su capacidad para ofrecer experiencias adaptativas, retroalimentación inmediata y mayor motivación en los estudiantes (Xiao & Zhi, 2023). En el aprendizaje del inglés como lengua extranjera, estas tecnologías han demostrado ser particularmente efectivas, ya que favorecen el desarrollo de habilidades lingüísticas como la escritura, comprensión y expresión oral mediante la práctica constante y la corrección en tiempo real (Kohnke, Moorhouse & Zou, 2023).</p>
+            <p>Por otro lado, aplicaciones como Duolingo han incorporado inteligencia artificial para personalizar el aprendizaje mediante algoritmos que adaptan el contenido según el rendimiento del usuario (Duolingo, 2024). De igual manera, herramientas como Gemini han ampliado las posibilidades educativas al permitir la práctica conversacional, la generación de contenido y el aprendizaje autónomo (Google, 2026).</p>
+            <p>Sin embargo, pese a los múltiples beneficios, existen limitaciones. Plataformas como Gemini podrían generar información inexacta o poco contextualizada. Del mismo modo, Duolingo puede resultar repetitivo. Además, el uso excesivo de herramientas de IA podría generar dependencia tecnológica y disminuir la interacción humana (Shaikh, Ameen & Ahmed, 2024). Por ello, el presente trabajo tiene como objetivo analizar cómo aplicaciones como Duolingo y Gemini contribuyen a la práctica personalizada del inglés y cuál es su impacto en la educación actual.</p>
+        </section>
+
+        <section id="justificacion">
+            <h2>2. Selección y Justificación del Tema</h2>
+            <p>El aprendizaje del idioma inglés enfrenta retos constantes en el entorno universitario, donde la falta de tiempo y la rigidez de los métodos tradicionales suelen limitar el progreso de los estudiantes. Frente a esta problemática, la IA emerge como un solución disruptiva al ofrecer herramientas que se adaptan al ritmo y nivel de cada usuario.</p>
+            
+            <h3>2.1. ¿Qué problema educativo aborda?</h3>
+            <p>El tema aborda las dificultades que muchos estudiantes presentan al aprender inglés mediante métodos tradicionales, como la falta de práctica constante, motivación y retroalimentación inmediata. Frente a ello, herramientas como Duolingo y Gemini permiten practicar vocabulario, gramática y conversación de forma interactiva y personalizada (Wang & Lee, 2024).</p>
+
+            <h3>2.2. ¿Por qué es innovador o relevante?</h3>
+            <p>Es innovador porque la inteligencia artificial está transformando la educación mediante experiencias de aprendizaje más dinámicas. Duolingo utiliza estrategias de gamificación para motivar a los usuarios, mientras que Gemini permite resolver dudas y mantener conversaciones en inglés en tiempo real. Estas herramientas facilitan el acceso al aprendizaje desde cualquier lugar (Chen & Hsu, 2023).</p>
+        </section>
+
         <section id="busqueda">
-            <h2>Estrategia de Búsqueda Avanzada</h2>
-            <p>Implementación de protocolos técnicos para la recuperación de literatura científica de alta autoridad.</p>
+            <h2>3. Técnicas de Búsqueda Avanzada Utilizadas</h2>
+            <p>Se emplearon diversas técnicas de búsqueda avanzada con el objetivo de obtener información confiable, actualizada y relevante sobre el uso de la inteligencia artificial en el aprendizaje de idiomas.</p>
+            
+            <h3>3.1. Palabras Clave y Operadores</h3>
+            <ul>
+                <li>"Inteligencia artificial en educación", "Aprendizaje personalizado", "Aplicaciones educativas con IA", "Aprendizaje autónomo", "Gamificación en educación digital".</li>
+            </ul>
+
             <div class="code-box">
-                <span class="tag">QUERY_LVL_2</span> ("Inteligencia Artificial" OR "IA generativa" OR chatbot*) AND ("enseñanza del inglés" OR "aprender inglés") AND (personaliza* OR gamifica*)
+                <span class="tag">NIVEL 1</span> ("IA generativa" AND "Gemini en educación de idiomas") AND intitle:("aprendizaje de idiomas" AND "inglés") AND ("personalización del aprendizaje") AND ("Duolingo aprendizaje personalizado")
             </div>
-            <div class="code-box" style="border-color: #f59e0b;">
-                <span class="tag">GOOGLE_DORK</span> filetype:pdf site:.edu OR site:.org "Inteligencia Artificial" AND "idiomas"
+            <div class="code-box">
+                <span class="tag">NIVEL 2</span> ("Inteligencia Artificial" OR "IA generativa" OR chatbot* "LLM") NEAR/10 ("enseñanza del inglés" OR "aprender inglés") AND (personaliza* OR gamifica*) AND ("aprendizaje de idiomas")
             </div>
+            <div class="code-box" style="border-color: var(--warning);">
+                <span class="tag">GOOGLE DORKS</span> ("IA generativa" OR "Gemini enseñanza de idiomas") AND intitle:("aprendizaje del idioma inglés" OR "duolingo") AND ("aprendizaje autónomo") AND ("Gemini aprendizaje personalizado") filetype:pdf
+            </div>
+
+            <h3>3.2. Filtros y Motores de Búsqueda</h3>
+            <p><strong>Filtros aplicados:</strong> Publicaciones entre 2022 y 2026, Artículos científicos revisados por pares, Idioma español, Acceso a texto completo.</p>
+            <p><strong>Bases de datos utilizadas:</strong> SciELO, Dialnet, Redalyc y Google Scholar (Académico).</p>
         </section>
 
         <section id="fuentes">
-            <h2>Matriz de Evaluación de Fuentes</h2>
+            <h2>4. Fuentes Seleccionadas y Evaluación Crítica</h2>
             <div class="table-container">
                 <table>
                     <thead>
                         <tr>
                             <th>Fuente (Autor, Año y Título)</th>
                             <th>Relevancia</th>
-                            <th>Autoridad</th>
+                            <th>Autoridad / Credibilidad</th>
                             <th>Fecha</th>
                             <th>Propósito</th>
-                            <th>Audiencia</th>
-                            <th>Acceso</th>
+                            <th>Motor de Búsqueda</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td><strong>Chicaiza et al. (2023):</strong> Aplicaciones de Chat GPT como IA para el aprendizaje del inglés</td>
-                            <td>Muy Alta: Retroalimentación inmediata.</td>
-                            <td>Investigadores Univ. Técnica de Ambato.</td>
+                            <td><strong>Chicaiza et al. (2023):</strong> Aplicaciones de Chat GPT como IA para el aprendizaje de idioma inglés.</td>
+                            <td>Muy Alta: Analiza cómo Chat GPT funciona como tutor.</td>
+                            <td>Alta: Artículo empírico publicado en revista indexada (LATAM) con revisión por pares.</td>
                             <td>2023</td>
-                            <td>Evaluar ChatGPT en lenguas.</td>
-                            <td>Docentes y alumnos.</td>
-                            <td><a href="https://latam.redilat.org/index.php/lt/article/view/781" class="btn-pdf">DIALNET</a></td>
+                            <td>Evaluar las aplicaciones de Chat GPT en lenguas.</td>
+                            <td>Dialnet</td>
                         </tr>
                         <tr>
-                            <td><strong>Díaz et al. (2022):</strong> Recursos didácticos digitales en la enseñanza del inglés</td>
-                            <td>Alta: Integración TIC/Bilingüismo.</td>
-                            <td>Académicos expertos en lingüística.</td>
+                            <td><strong>Díaz et al. (2022):</strong> Recursos didácticos digitales en la enseñanza del idioma inglés.</td>
+                            <td>Alta: Detalla integración de herramientas digitales.</td>
+                            <td>Alta: Artículo científico arbitrado.</td>
                             <td>2022</td>
-                            <td>Describir impacto de TIC.</td>
-                            <td>Profesores de inglés.</td>
-                            <td><a href="https://ve.scielo.org/pdf/uct/v26n116/2542-3401-uct-26-116-84.pdf" class="btn-pdf">SCIELO</a></td>
+                            <td>Describir uso de recursos tecnológicos.</td>
+                            <td>SciELO</td>
                         </tr>
                         <tr>
-                            <td><strong>Ferreyra et al. (2024):</strong> Avances y discusiones sobre el uso de la IA en educación</td>
-                            <td>Media: Marco ético y pedagógico.</td>
-                            <td>Expertos en pedagogía y tecnología.</td>
+                            <td><strong>Ferreyra et al. (2024):</strong> Avances y discusiones sobre el uso de la Inteligencia Artificial (IA) en la educación.</td>
+                            <td>Media/Alta: Aporta marco teórico y retos éticos.</td>
+                            <td>Alta: Artículo de revisión indexado.</td>
                             <td>2024</td>
-                            <td>Sintetizar retos éticos.</td>
-                            <td>Comunidad académica.</td>
-                            <td><a href="https://www.redalyc.org/journal/7178/717877776003/html/" class="btn-pdf">REDALYC</a></td>
+                            <td>Sintetizar avances y discusiones éticas.</td>
+                            <td>Redalyc</td>
                         </tr>
                         <tr>
-                            <td><strong>Holguín-Almache et al. (2024):</strong> IA generativa como apoyo en el aprendizaje del inglés</td>
-                            <td>Muy Alta: Personalización profunda.</td>
-                            <td>Especialistas en entornos digitales.</td>
+                            <td><strong>Holguín-Almache et al. (2024):</strong> Inteligencia artificial generativa como apoyo en el aprendizaje del idioma inglés.</td>
+                            <td>Muy Alta: Explora impacto en autoaprendizaje.</td>
+                            <td>Alta: Artículo de revisión en revista arbitrada.</td>
                             <td>2024</td>
-                            <td>Evaluar eficacia de IA generativa.</td>
-                            <td>Universitarios.</td>
-                            <td><a href="https://dialnet.unirioja.es/servlet/articulo?codigo=10666745" class="btn-pdf">DIALNET</a></td>
+                            <td>Analizar impacto de la IA Generativa.</td>
+                            <td>Dialnet</td>
                         </tr>
                         <tr>
-                            <td><strong>Peñaloza Ralliman et al. (2024):</strong> Estrategias didácticas basadas en IA...</td>
-                            <td>Alta: Revisión sistemática de producción.</td>
-                            <td>Investigadores Univ. Distrital.</td>
+                            <td><strong>Peñaloza Ralliman et al. (2024):</strong> Estrategias didácticas basadas en inteligencia artificial para el aprendizaje del inglés.</td>
+                            <td>Alta: Sistematiza estrategias efectivas.</td>
+                            <td>Alta: Revisión sistemática de literatura rigurosa.</td>
                             <td>2024</td>
-                            <td>Examinar producción científica.</td>
-                            <td>Investigadores.</td>
-                            <td><a href="https://dialnet.unirioja.es/servlet/articulo?codigo=10077073" class="btn-pdf">DIALNET</a></td>
+                            <td>Examinar estrategias y su impacto.</td>
+                            <td>Google Académico</td>
                         </tr>
                     </tbody>
                 </table>
@@ -258,97 +309,104 @@
         </section>
 
         <section id="analisis">
-            <h2>Análisis de Soluciones Implementadas</h2>
-            <div class="ai-grid">
-                <div class="ai-tool">
-                    <h3 style="color: var(--accent);">Gemini / ChatGPT</h3>
-                    <p style="font-size: 0.9rem;">Modelos de Lenguaje Extensos (LLM) que permiten la práctica conversacional mediante <i>Roleplay</i> y corrección sintáctica en tiempo real.</p>
-                    <div class="progress-bar"><div class="progress-fill" style="width: 95%;"></div></div>
-                    <span style="font-size: 0.7rem;">Capacidad de Personalización: 95%</span>
-                </div>
-                <div class="ai-tool">
-                    <h3 style="color: #a78bfa;">Duolingo</h3>
-                    <p style="font-size: 0.9rem;">Sistema gamificado que utiliza algoritmos de repetición espaciada para la retención de vocabulario y gramática básica.</p>
-                    <div class="progress-bar"><div class="progress-fill" style="width: 80%; background: #a78bfa;"></div></div>
-                    <span style="font-size: 0.7rem;">Capacidad de Gamificación: 80%</span>
-                </div>
+            <h2>5. Análisis de Soluciones de IA Identificadas</h2>
+            
+            <h3>5.1. Descripción</h3>
+            <p><strong>Duolingo</strong> es una plataforma de aprendizaje de idiomas basada en inteligencia artificial que emplea una estructura de lecciones cortas y ramificadas, buscando mantener la motivación del usuario y favorecer procesos de aprendizaje progresivo y autónomo. Incorpora ejercicios de diagnóstico, formativos y sumativos. Investigaciones demostraron que los estudiantes que utilizaron esta plataforma mejoraron significativamente su comprensión auditiva y adquisición de vocabulario (Pineda Castillo, 2022).</p>
+            <p><strong>Gemini</strong> es un modelo de lenguaje de gran escala (LLM) desarrollado por Google que funciona como un asistente conversacional. Permite una práctica más libre y contextualizada, simulando conversaciones auténticas que se adaptan al nivel y necesidades del usuario. Estudios han demostrado que beneficia la práctica pedagógica y permite personalizar materiales educativos (Badilla Ramos, 2025).</p>
+
+            <h3>5.2. Cómo personalizar el aprendizaje</h3>
+            <p><strong>Gemini:</strong> La personalización se manifiesta a través del uso de "prompts" o instrucciones específicas. La IA generativa se adapta al nivel de autoaprendizaje del alumno, permitiéndole solicitar explicaciones más simples o complejas (Holguín-Almache et al., 2024).</p>
+            <p><strong>Duolingo:</strong> Opera mediante algoritmos basados en repetición espaciada y análisis de rendimiento. La plataforma detecta automáticamente qué palabras olvida el usuario con frecuencia y personaliza las sesiones diarias para reforzar esas debilidades.</p>
+
+            <h3>5.3. Cómo mejora el rendimiento académico</h3>
+            <p>El rendimiento mejora gracias a la <strong>retroalimentación instantánea</strong> (permite corregir errores en tiempo real sin esperar a un docente) y la <strong>práctica constante</strong> (fomenta la autonomía desde cualquier dispositivo, reduciendo la ansiedad de equivocarse en público).</p>
+
+            <h3>5.4. Ejemplo Práctico (Duolingo en el Aula)</h3>
+            <p>Durante una sesión de clases presencial, el docente plantea un problema lingüístico específico al salón. En lugar de utilizar guías de papel, el profesor activa un desafío en vivo a través de <i>Duolingo for Schools</i>. La IA personaliza la experiencia en tiempo real: si un estudiante falla repetidamente, el algoritmo de repetición espaciada ajusta la dificultad hasta asegurar su dominio mediante retroalimentación visual.</p>
+
+            <h3>5.5. Ejemplo Práctico (Prompt para Gemini)</h3>
+            <div class="code-box">
+[ROL] Actúa como un profesor de inglés experto en pedagogía universitaria.
+
+[TAREA] Explica la diferencia principal entre el "Present Simple" y el "Present Continuous", elabora una tabla comparativa y propón 3 ejercicios prácticos de traducción del español al inglés. 
+Regla estricta: Detente inmediatamente después de escribir los ejercicios. Espera a que yo escriba mis respuestas y, solo entonces, corrígeme brindándome retroalimentación en tiempo real.
+
+[CONTEXTO] Soy un estudiante universitario de ingeniería con nivel básico-intermedio que necesita dominar esta gramática para redactar y comprender textos técnicos o académicos.
+
+[FORMATO] Organiza la salida en: 1. Explicación breve. 2. Tabla comparativa (Estructura, Uso principal, Ejemplos). 3. Lista numerada con los 3 ejercicios. 4. Un mensaje de pausa interactiva indicando que esperas mi respuesta. ¡Bajo ninguna circunstancia resuelvas los ejercicios por tu cuenta!
             </div>
-            <div class="code-box" style="margin-top: 1.5rem; background: #1e293b;">
-                <strong>Prompt de Ingeniería para Gemini:</strong><br>
-                "Generate a B2-level conversation about cloud computing. Act as a senior developer and point out my grammatical mistakes in every turn."
-            </div>
+        </section>
+
+        <section id="multimedia">
+            <h2>6. Recurso Educativo Multimedia</h2>
+            <p>Se elaboró una presentación interactiva sobre el uso de la IA en el aprendizaje del inglés. El objetivo es explicar cómo la IA contribuye al aprendizaje personalizado, informando sobre los beneficios y limitaciones de Duolingo y Gemini.</p>
+            
+            <a href="https://canva.link/bq7694k384yni1t" class="btn-link" target="_blank">Ver Presentación Canva</a>
+            <a href="https://omar01718.github.io/EPARCIAL-Grupo6/" class="btn-link" target="_blank" style="border-color: #a855f7; color: #a855f7;">Ver Proyecto en GitHub</a>
         </section>
 
         <section id="bibliografia">
-            <h2>Referencias Bibliográficas (APA 7)</h2>
-            <p style="margin-bottom: 1.5rem; font-size: 0.85rem; color: var(--accent);">Lista completa de fuentes académicas ordenadas alfabéticamente.</p>
-            
-            <div class="ref-item">
-                Badilla Ramos, K. (2025). Perceptions of five Costa Rican EFL teachers regarding the integration of large language models: An exploratory study. <i>Alfinge</i>, 37, 33-49. <a href="https://dialnet.unirioja.es/servlet/articulo?codigo=10638886" target="_blank">https://dialnet.unirioja.es/servlet/articulo?codigo=10638886</a>
-            </div>
-            
-            <div class="ref-item">
-                Chicaiza Redrovan, S. E., & Farias Lema, J. M. (2023). Aplicaciones de Chat GPT como inteligencia artificial para el aprendizaje de idioma inglés. <i>LATAM Revista Latinoamericana de Ciencias Sociales y Humanidades</i>, 4(2), 2689–2703. <a href="https://doi.org/10.56712/latam.v4i2.781" target="_blank">https://doi.org/10.56712/latam.v4i2.781</a>
-            </div>
-            
-            <div class="ref-item">
-                Díaz, E. D. C., Quintero Montilla, A. K., & Rangel, E. D. C. (2022). Recursos didácticos digitales en la enseñanza del idioma inglés. <i>Universidad, Ciencia y Tecnología</i>, 26(116), 84-93. <a href="https://ve.scielo.org/scielo.php?script=sci_arttext&pid=S2542-34012022000100084" target="_blank">https://ve.scielo.org/scielo.php?script=sci_arttext&pid=S2542-34012022000100084</a>
-            </div>
-            
-            <div class="ref-item">
-                Ferreyra, M., Morán, L., & Daura, I. (2024). Avances y discusiones sobre el uso de la Inteligencia Artificial (IA) en educación. <i>Paradigma</i>, 45, 48-69. <a href="https://www.redalyc.org/journal/7178/717877776003/717877776003.pdf" target="_blank">https://www.redalyc.org/journal/7178/717877776003/717877776003.pdf</a>
-            </div>
-
-            <div class="ref-item">
-                Gonzáles-Gonzáles, C. (2023). El impacto de la inteligencia artificial en la educación: transformación de la forma de enseñar y de aprender. <a href="https://riull.ull.es/xmlui/bitstream/handle/915/32719/Q_36_%20%282023%29_03.pdf?sequence=1" target="_blank">https://riull.ull.es/xmlui/bitstream/handle/915/32719/Q_36_%20%282023%29_03.pdf?sequence=1</a>
-            </div>
-            
-            <div class="ref-item">
-                Google. (2024). <i>Gemini</i> [Modelo de lenguaje grande]. <a href="https://gemini.google.com" target="_blank">https://gemini.google.com</a>
-            </div>
-            
-            <div class="ref-item">
-                Google. (s.f.). <i>Google Académico</i>. Recuperado el 8 de mayo de 2026, de <a href="https://scholar.google.es/" target="_blank">https://scholar.google.es/</a>
-            </div>
-            
-            <div class="ref-item">
-                Holguín-Almache, J. A., Santillán-Brito, L. L., & Pardo-Cevallos, A. G. (2024). Inteligencia artificial generativa como apoyo en el aprendizaje del idioma inglés. <i>Revista Científica Arbitrada Multidisciplinaria PENTACIENCIAS</i>, 6(5), 58-75. <a href="https://dialnet.unirioja.es/servlet/articulo?codigo=10666745" target="_blank">https://dialnet.unirioja.es/servlet/articulo?codigo=10666745</a>
-            </div>
-            
-            <div class="ref-item">
-                Narváez Sarango, J. S., Maldonado Palacios, G. M., Defaz Lasso, M. L., & Maldonado Palacios, I. A. (2023). La gamificación como metodología de aprendizaje del idioma inglés: Caso de estudio - primeros niveles de educación superior. <i>Ciencia Latina Revista Científica Multidisciplinar</i>, 7(4). <a href="https://doi.org/10.37811/cl_rcm.v7i2.604" target="_blank">https://doi.org/10.37811/cl_rcm.v7i2.604</a>
-            </div>
-            
-            <div class="ref-item">
-                Ocaña-Fernández, Y., Valenzuela-Fernández, L. y Garro-Aburto, L. (2019). Inteligencia artificial y sus implicaciones en la educación superior. <a href="http://www.scielo.org.pe/scielo.php?script=sci_arttext&pid=S2307-79992019000200021" target="_blank">http://www.scielo.org.pe/scielo.php?script=sci_arttext&pid=S2307-79992019000200021</a>
-            </div>
-            
-            <div class="ref-item">
-                Peñaloza Ralliman, L. P., Roa Roa, M. F., Roa Roa, S. L., & Valderrama Muñoz, F. A. (2024). Estrategias didácticas basadas en inteligencia artificial para el aprendizaje del inglés: una revisión sistemática de la producción bibliográfica 2019-2023. <i>Boletín de Innovación, Logística y Operaciones</i>, 6(1). <a href="https://dialnet.unirioja.es/servlet/articulo?codigo=10077073" target="_blank">https://dialnet.unirioja.es/servlet/articulo?codigo=10077073</a>
-            </div>
-            
-            <div class="ref-item">
-                Pineda Castillo, K. A. (2022). El aprendizaje móvil como apoyo para aprender inglés durante el confinamiento social. <i>Apertura (Guadalajara, Jal.)</i>, 14(2), 78-91. <a href="https://www.scielo.org.mx/scielo.php?script=sci_arttext&pid=S1665-61802022000200078&lang=en" target="_blank">https://www.scielo.org.mx/scielo.php?script=sci_arttext&pid=S1665-61802022000200078&lang=en</a>
-            </div>
-            
-            <div class="ref-item">
-                SciELO. (s.f.). <i>Scientific Electronic Library Online</i>. Recuperado el 8 de mayo de 2026, de <a href="https://scielo.org/es/" target="_blank">https://scielo.org/es/</a>
-            </div>
-            
-            <div class="ref-item">
-                Universidad Autónoma del Estado de México. (s.f.). <i>Redalyc: Red de Revistas Científicas de América Latina y el Caribe, España y Portugal</i>. Recuperado el 8 de mayo de 2026, de <a href="https://www.redalyc.org/" target="_blank">https://www.redalyc.org/</a>
-            </div>
-            
-            <div class="ref-item">
-                Universidad de La Rioja. (s.f.). <i>Dialnet</i>. Recuperado el 8 de mayo de 2026, de <a href="https://dialnet.unirioja.es/" target="_blank">https://dialnet.unirioja.es/</a>
-            </div>
-            
-            <div class="ref-item">
-                Universidad Finis Terrae. (2021). <i>Guía para realizar búsquedas efectivas</i>. <a href="https://finis.cl/images/biblioteca/descargables/guia-para-realizar-busquedas-efectivas-abril-2021.pdf" target="_blank">https://finis.cl/images/biblioteca/descargables/guia-para-realizar-busquedas-efectivas-abril-2021.pdf</a>
-            </div>
-            
+            <h2>7. Citación y Atribución (APA 7)</h2>
+            <div class="ref-item">Badilla Ramos, K. (2025). Perceptions of five Costa Rican EFL teachers regarding the integration of large language models: An exploratory study. <i>Alfinge</i>, 37, 33-49. https://dialnet.unirioja.es/servlet/articulo?codigo=10638886</div>
+            <div class="ref-item">Chicaiza Redrovan, S. E., & Farias Lema, J. M. (2023). Aplicaciones de Chat GPT como inteligencia artificial para el aprendizaje de idioma inglés. <i>LATAM Revista Latinoamericana de Ciencias Sociales y Humanidades</i>, 4(2), 2689-2703. https://doi.org/10.56712/latam.v4i2.781</div>
+            <div class="ref-item">Díaz, E. D. C., Quintero Montilla, A. K., & Rangel, E. D. C. (2022). Recursos didácticos digitales en la enseñanza del idioma inglés. <i>Universidad, Ciencia y Tecnología</i>, 26(116), 84-93. https://ve.scielo.org/scielo.php?script=sci_arttext&pid=S2542-34012022000100084</div>
+            <div class="ref-item">Ferreyra, M., Morán, L., & Daura, I. (2024). Avances y discusiones sobre el uso de la Inteligencia Artificial (IA) en educación. <i>Paradigma</i>, 45, 48-69. https://www.redalyc.org/journal/7178/717877776003/717877776003.pdf</div>
+            <div class="ref-item">Gonzáles- Gonzáles, C. (2023). El impacto de la inteligencia artificial en la educación: transformación de la forma de enseñar y de aprender. https://riull.ull.es/xmlui/bitstream/handle/915/32719/Q_36_%20%282023%29_03.pdf</div>
+            <div class="ref-item">Google. (2024). <i>Gemini</i> [Modelo de lenguaje grande]. https://gemini.google.com</div>
+            <div class="ref-item">Google. (s.f.). <i>Google Académico</i>. Recuperado el 8 de mayo de 2026, de https://scholar.google.es/</div>
+            <div class="ref-item">Holguín-Almache, J. A., Santillán-Brito, L. L., & Pardo-Cevallos, A. G. (2024). Inteligencia artificial generativa como apoyo en el aprendizaje del idioma inglés. <i>Revista Científica Arbitrada Multidisciplinaria PENTACIENCIAS</i>, 6(5), 58-75. https://dialnet.unirioja.es/servlet/articulo?codigo=10666745</div>
+            <div class="ref-item">Narváez Sarango, J. S., Maldonado Palacios, G. M., Defaz Lasso, M. L., & Maldonado Palacios, I. A. (2023). La gamificación como metodología de aprendizaje del idioma inglés: Caso de estudio primeros niveles de educación superior. <i>Ciencia Latina Revista Científica Multidisciplinar</i>, 7(4). https://doi.org/10.37811/cl_rcm.v7i2.604</div>
+            <div class="ref-item">Ocaña-Fernández, Y., Valenzuela-Fernández, L. y Garro-Aburto, L. (2019). Inteligencia artificial y sus implicaciones en la educación superior. http://www.scielo.org.pe/scielo.php?script=sci_arttext&pid=S2307-79992019000200021</div>
+            <div class="ref-item">Peñaloza Ralliman, L. P., Roa Roa, M. F., Roa Roa, S. L., & Valderrama Muñoz, F. A. (2024). Estrategias didácticas basadas en inteligencia artificial para el aprendizaje del inglés: una revisión sistemática de la producción bibliográfica 2019-2023. <i>Boletín de Innovación, Logística y Operaciones</i>, 6(1). https://dialnet.unirioja.es/servlet/articulo?codigo=10077073</div>
+            <div class="ref-item">Pineda Castillo, K. A. (2022). El aprendizaje móvil como apoyo para aprender inglés durante el confinamiento social. <i>Apertura (Guadalajara, Jal.)</i>, 14 (2), 78-91. https://www.scielo.org.mx/scielo.php?script=sci_arttext&pid=S1665-61802022000200078</div>
+            <div class="ref-item">SciELO. (s.f.). <i>Scientific Electronic Library Online</i>. Recuperado el 8 de mayo de 2026, de https://scielo.org/es/</div>
+            <div class="ref-item">Universidad Autónoma del Estado de México. (s.f.). <i>Redalyc</i>. Recuperado el 8 de mayo de 2026, de https://www.redalyc.org/</div>
+            <div class="ref-item">Universidad de La Rioja. (s.f.). <i>Dialnet</i>. Recuperado el 8 de mayo de 2026, de https://dialnet.unirioja.es/</div>
+            <div class="ref-item">Universidad Finis Terrae. (2021). <i>Guía para realizar búsquedas efectivas</i>. https://finis.cl/images/biblioteca/descargables/guia-para-realizar-busquedas-efectivas-abril-2021.pdf</div>
         </section>
-    </main>
 
+        <section id="reflexion">
+            <h2>8. Reflexión del Proceso de Trabajo</h2>
+            
+            <div class="reflection-grid">
+                <div class="reflection-card">
+                    <h4>Perez Lipe, Daniela Ximena</h4>
+                    <p><strong>¿Qué aprendí?</strong> Descubrí cómo la IA facilita el aprendizaje adaptativo y aprendí a redactar 'prompts' efectivos para simular entornos de tutoría virtual.</p>
+                    <p><strong>¿Qué desafíos enfrenté?</strong> El desafío fue entender cómo estas aplicaciones analizan mi rendimiento en tiempo real para ayudarme a mejorar de manera personalizada.</p>
+                </div>
+                
+                <div class="reflection-card">
+                    <h4>Pineda Gamarra, Omar Franklin</h4>
+                    <p><strong>¿Qué aprendí?</strong> Conceptualicé la IA como un sistema de tutoría adaptativa. Comprendí que con prompts específicos en Gemini se generan simulaciones conversacionales que otorgan retroalimentación inmediata, fomentando el aprendizaje autónomo.</p>
+                    <p><strong>¿Qué desafíos enfrenté?</strong> Dominar la formulación de prompts, ya que al inicio las respuestas carecían de interactividad. También fue un reto vincular la parte práctica con artículos científicos indexados.</p>
+                </div>
+
+                <div class="reflection-card">
+                    <h4>Quispe Amat, Fabio Alessandro</h4>
+                    <p><strong>¿Qué aprendí?</strong> Aprendí que la IA funciona como tutor personalizado. Entendí que usando comandos específicos recibo correcciones inmediatas y practico inglés de forma real y autónoma.</p>
+                    <p><strong>¿Qué desafíos enfrenté?</strong> Aprender a pedirle cosas a la IA para evitar respuestas teóricas y lograr una práctica interactiva, conectándolo con fuentes académicas confiables.</p>
+                </div>
+
+                <div class="reflection-card">
+                    <h4>Quispe Zolorzano, Lizeth Xiomara</h4>
+                    <p><strong>¿Qué aprendí?</strong> Aprendí cómo la IA ayuda al aprendizaje del inglés mediante herramientas digitales, comprendiendo la importancia de la tecnología para la autonomía y motivación del estudiante.</p>
+                    <p><strong>¿Qué desafíos enfrenté?</strong> El principal reto fue organizar las ideas y diseñar una presentación creativa y dinámica que facilitara la comprensión del tema.</p>
+                </div>
+
+                <div class="reflection-card">
+                    <h4>Ramos Gutierrez, Ximena Milagros</h4>
+                    <p><strong>¿Qué aprendí?</strong> Que Duolingo y Gemini no reemplazan al profesor, sino que son complementos para reforzar el idioma al propio ritmo mediante algoritmos y prompts bien formulados.</p>
+                    <p><strong>¿Qué desafíos enfrenté?</strong> Encontrar fuentes académicas actualizadas específicas sobre Gemini en lugar de ChatGPT, y diferenciar cómo cada herramienta personaliza el aprendizaje.</p>
+                </div>
+            </div>
+
+            <div class="reflection-card" style="margin-top: 1.5rem; background: #1e293b; border-color: var(--accent);">
+                <h4 style="color: var(--accent);">Reflexión en Equipo</h4>
+                <p>Trabajamos de manera colaborativa y organizada, distribuyendo las tareas según las habilidades de cada integrante. Mantuvimos comunicación constante para compartir ideas y coordinar avances en la búsqueda de información, selección de fuentes y diseño multimedia. Fomentamos el respeto, el apoyo mutuo y realizamos revisiones grupales para asegurar que el contenido final fuera claro, estructurado, dinámico y comprensible.</p>
+            </div>
+        </section>
+
+    </main>
 </body>
 </html>
